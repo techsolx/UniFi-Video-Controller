@@ -1,4 +1,5 @@
 version: '3'
+
 services:
   unifi-video-controller:
     build: .
@@ -14,9 +15,10 @@ services:
       - 7445:7445
       - 7446:7446
       - 7447:7447
+      - 10001:10001
     volumes:
-      - ./run/data:/var/lib/unifi-video
-      - ./run/videos:/var/lib/unifi-video/videos
+      - /mnt/ssd256/unifi-video:/var/lib/unifi-video
+      - /mnt/ssd256/unifi-video/videos:/var/lib/unifi-video/videos
     environment:
       - TZ=America/Los_Angeles
       - DEBUG=1
@@ -25,5 +27,11 @@ services:
       - DAC_READ_SEARCH
 # Uncomment security option below to set apparmor unconfined if "tmpfs is write-protected, mounting read-only" error is seen.
 # Known to happen on ubuntu, synology, and other platforms.
-#    security_opt:
-#      - apparmor:unconfined
+    security_opt:
+      - apparmor:unconfined
+    deploy:
+      restart_policy:
+        condition: always
+        delay: 5s
+        max_attempts: 3
+        window: 120s
