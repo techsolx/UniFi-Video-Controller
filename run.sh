@@ -146,6 +146,18 @@ if mongo --version | grep -q "v4.0"; then
   fi
 fi
 
+# Update db to 4.2 features
+if mongo --version | grep -q "v4.2"; then
+  if [[ "${MONGO_FEATURE_COMPATIBILITY_VERSION}" != "4.2" ]]; then
+    echo -n "Found FeatureCompatibilityVersion ${MONGO_FEATURE_COMPATIBILITY_VERSION}, setting to 4.2..."
+    if mongo --quiet --eval 'db.adminCommand( { setFeatureCompatibilityVersion: "4.0" } )' localhost:7441 > /dev/null 2>&1; then
+      echo " done."
+    else
+      echo " failed."
+    fi
+  fi
+fi
+
 # Loop while we wait for shutdown trap
 while true; do
   sleep 2
