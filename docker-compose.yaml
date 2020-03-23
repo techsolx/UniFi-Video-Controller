@@ -19,11 +19,13 @@ services:
     volumes:
       - /mnt/ssd256/unifi-video:/var/lib/unifi-video
       - /mnt/ssd256/unifi-video/videos:/var/lib/unifi-video/videos
+    tmpfs:
+      - /var/cache/unifi-video
     environment:
       - TZ=America/Los_Angeles
       - DEBUG=1
+      - CREATE_TMPFS=no
     cap_add:
-      - SYS_ADMIN
       - DAC_READ_SEARCH
 # Uncomment security option below to set apparmor unconfined if "tmpfs is write-protected, mounting read-only" error is seen.
 # Known to happen on ubuntu, synology, and other platforms.
