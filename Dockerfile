@@ -26,14 +26,15 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75
     jsvc \
     jq \
     moreutils \
-    openjdk-8-jre-headless \
+    openjdk-8-jre-headless=8u162-b12-1 \
     patch \
     sudo \
     tzdata \
-    mongodb-org-server \
-    mongodb-org-shell \
     moreutils \
-    wget
+    wget && \
+  ln -s /bin/true /usr/local/bin/systemctl && \
+  apt-get install -y mongodb-org-server mongodb-org-shell && \
+  rm /usr/local/bin/systemctl
 
 # Get, install and patch unifi-video
 RUN wget -q -O unifi-video.deb https://dl.ubnt.com/firmwares/ufv/v${version}/unifi-video.Ubuntu18.04_amd64.v${version}.deb && \
