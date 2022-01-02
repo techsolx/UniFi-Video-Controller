@@ -26,7 +26,7 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75
     jsvc \
     jq \
     moreutils \
-    openjdk-8-jre-headless=8u162-b12-1 \
+    openjdk-8-jre-headless=8u312-b07-0 \
     patch \
     sudo \
     tzdata \
@@ -43,6 +43,14 @@ RUN wget -q -O unifi-video.deb https://dl.ubnt.com/firmwares/ufv/v${version}/uni
   rm /unifi-video.deb && \
   rm /unifi-video.patch && \
   chmod 755 /run.sh
+
+# Patch log4j vuln
+RUN wget -q -O apache-log4j-2.17.0-bin.tar.gz https://dlcdn.apache.org/logging/log4j/2.17.0/apache-log4j-2.17.0-bin.tar.gz && \
+  tar -zxf apache-log4j-2.17.0-bin.tar.gz apache-log4j-2.17.0-bin/log4j-api-2.17.0.jar apache-log4j-2.17.0-bin/log4j-core-2.17.0.jar apache-log4j-2.17.0-bin/log4j-slf4j-impl-2.17.0.jar && \
+  install --backup -m 400 -o 1003 -g 104 -T apache-log4j-2.17.0-bin/log4j-api-2.17.0.jar /usr/lib/unifi-video/lib/log4j-api-2.1.jar && \
+  install --backup -m 400 -o 1003 -g 104 -T apache-log4j-2.17.0-bin/log4j-core-2.17.0.jar /usr/lib/unifi-video/lib/log4j-core-2.1.jar && \
+  install --backup -m 400 -o 1003 -g 104 -T apache-log4j-2.17.0-bin/log4j-slf4j-impl-2.17.0.jar /usr/lib/unifi-video/lib/log4j-slf4j-impl-2.1.jar && \
+  rm -fr /apache-log4j-2.17.0-bin.tar.gz /apache-log4j-2.17.0-bin
 
 # RTMP, RTMPS & RTSP, Inbound Camera Streams & Camera Management (NVR Side), UVC-Micro Talkback (Camera Side)
 # HTTP & HTTPS Web UI + API, Video over HTTP & HTTPS
