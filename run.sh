@@ -140,6 +140,18 @@ if mongo --version 2>&1 | grep -q "v4.0"; then
   fi
 fi
 
+# Update db to 5.0 features
+if mongo --version 2>&1 | grep -q "v5.0"; then
+  if [[ "${MONGO_FEATURE_COMPATIBILITY_VERSION}" != "5.0" ]]; then
+    echo -n "Found FeatureCompatibilityVersion ${MONGO_FEATURE_COMPATIBILITY_VERSION}, setting to 5.0..." | ts '%Y-%m-%d %H:%M:%.S'
+    if mongo --quiet --eval 'db.adminCommand( { setFeatureCompatibilityVersion: "5.0" } )' localhost:7441 > /dev/null 2>&1; then
+      echo " done."
+    else
+      echo " failed."
+    fi
+  fi
+fi
+
 # Loop while we wait for shutdown trap
 while true; do
   # When --tmpfs is used, container restarts cause these folders to go missing.
