@@ -17,10 +17,8 @@ ADD unifi-video.patch /unifi-video.patch
 ADD run.sh /run.sh
 
 # Add mongodb repo, key, update and install needed packages
-RUN apt-key adv --no-tty --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10 && \
-  echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-bionic dist 8gen' > /etc/apt/sources.list.d/mongodb.list && \
-  apt-get update && \
-  apt-get install -y mongodb-org && \
+RUN apt-key adv --no-tty --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75D9DCB49F368818C72E52529D4 && \
+  echo "deb [ arch=amd64,arm64 ] http://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.0 multiverse" > /etc/apt/sources.list.d/mongodb-org-4.0.list && \
   apt-get update && \
   apt-get install -y apt-utils && \
   apt-get upgrade -y -o Dpkg::Options::="--force-confold" && \
@@ -35,7 +33,7 @@ RUN apt-key adv --no-tty --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB
     moreutils \
     wget && \
   ln -s /bin/true /usr/local/bin/systemctl && \
-#  apt-get install -y mongodb-org-server mongodb-org-shell && \
+  apt-get install -y mongodb-org-server mongodb-org-shell && \
   rm /usr/local/bin/systemctl
 
 # Get, install and patch unifi-video
@@ -56,7 +54,7 @@ RUN wget -q -O apache-log4j-2.17.0-bin.tar.gz https://dlcdn.apache.org/logging/l
 
 # RTMP, RTMPS & RTSP, Inbound Camera Streams & Camera Management (NVR Side), UVC-Micro Talkback (Camera Side)
 # HTTP & HTTPS Web UI + API, Video over HTTP & HTTPS
-EXPOSE 1935/tcp 7444/tcp 7447/tcp 6666/tcp 7442/tcp 7004/udp 7080/tcp 7443/tcp 7445/tcp 7446/tcp 8080/tcp 27017/tcp
+EXPOSE 1935/tcp 7444/tcp 7447/tcp 6666/tcp 7442/tcp 7004/udp 7080/tcp 7443/tcp 7445/tcp 7446/tcp
 
 # Run this potato
 CMD ["/run.sh"]
