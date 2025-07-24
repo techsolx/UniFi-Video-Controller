@@ -54,7 +54,7 @@ RUN wget -q -O apache-log4j-2.17.0-bin.tar.gz https://archive.apache.org/dist/lo
 
 # RTMP, RTMPS & RTSP, Inbound Camera Streams & Camera Management (NVR Side), UVC-Micro Talkback (Camera Side)
 # HTTP & HTTPS Web UI + API, Video over HTTP & HTTPS
-EXPOSE 1935/tcp 7444/tcp 7447/tcp 6666/tcp 7442/tcp 7004/udp 7080/tcp 7443/tcp 7445/tcp 7446/tcp 8080/tcp 27017/tcp
+EXPOSE 1935/tcp 7444/tcp 7447/tcp 6666/tcp 7442/tcp 7004/udp 7080/tcp 7443/tcp 7445/tcp 7446/tcp 8080/tcp
 
 # Run it
 CMD ["/run.sh"]
